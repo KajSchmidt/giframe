@@ -1,20 +1,21 @@
 
-function buildPage() {
-  var pageId = 0;
+function buildPage(callBack) {
   $.getJSON( "pages.json", function(data) {
     $.each(data["pages"], function(index, obj){
-      $("body").append("<article id='page-"+ index +"'><section><div id='sender_name'>"+ obj["sender"] +"</div><div id='sender_message'>"+ obj["message"] +"</div></section></article>");
-      $("#page-"+ index).css("background-image", "url('"+ obj["image"] +"')");
+      if (obj["image"] != callBack) {
+        $("article").fadeOut('slow', function(){
+          $("body").empty();
+          $("body").append("<article id='page'><section><div id='sender_name'>"+ obj["sender"] +"</div><div id='sender_message'>"+ obj["message"] +"</div></section></article>");
+          $("#page").css("background-image", "url('"+ obj["image"] +"')");
+          $("#page").delay(2000).fadeIn('slow', function(){
+            $("#page section").delay(500).css("display", "flex").hide().slideDown('slow');
+          });
+          setTimeout(function(){ buildPage(obj["image"]); }, 3000);
+        });
+      };
+      else {
+        setTimeout(function(){ buildPage(callBack); }, 3000);
+      }
     });
-  })
-  .done(function(){
-    displayPage(0);
-  });
-};
-
-function displayPage(pageId, pageMode) {
-  $("article").fadeOut('slow');
-  $("#page-"+ pageId).delay(2000).fadeIn('slow', function(){
-    $("#page-"+ pageId +" section").delay(500).css("display", "flex").hide().slideDown('slow');
   });
 };
