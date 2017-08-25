@@ -1,0 +1,53 @@
+body {
+  margin:0;
+  padding:0;
+  background-color: #000;
+  background-image: url("loading.gif");
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
+}
+
+article {
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100vh;
+  display:none;
+}
+
+section {
+  position: fixed;
+  bottom: 0px;
+  height:50px;
+  width: 100%;
+  background-color: #222;
+  display: flex;
+  align-items: stretch;
+  align-content: stretch;
+  justify-content: center;
+  padding: 5px;
+  display: none;
+  opacity: 0.8;
+}
+
+#sender_name {
+  color:#fff;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.3em;
+  text-align: center;
+  padding-top: 10px;
+  flex: 1 1 auto;
+  border-right: thin solid #fff;
+}
+
+#sender_message {
+  color:#fff;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.6em;
+  padding: 10px;
+  flex: 5 1 auto;
+  /*background-color: #444;*/
+}
