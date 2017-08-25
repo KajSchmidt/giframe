@@ -12,8 +12,7 @@ function buildPage(callBack) {
           });
           setTimeout(function(){ buildPage(obj["image"]); }, 3000);
         });
-      };
-      else {
+      } else {
         setTimeout(function(){ buildPage(callBack); }, 3000);
       }
     });
