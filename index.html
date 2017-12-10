@@ -52,14 +52,13 @@
       opacity: 0.8;
     }
 
-    #message {
+    div.message {
       color:#fff;
       font-family: 'Roboto', sans-serif;
       font-size: 1.3em;
       text-align: center;
       padding-top: 10px;
       flex: 1 1 auto;
-      border-right: thin solid #fff;
     }
 
   </style>
@@ -78,8 +77,11 @@
 
     function buildPage(data, tabletop) {
         $.each(data, function(index, obj){
-              $("body").append("<article id='page-"+index+"'><section><div id='message'>"+ obj["Text"] +"</div></section></article>");
+              $("body").append("<article id='page-"+index+"'><section id='section-"+index+"'><div class='message'  id='text-"+index+"'>"+ obj["Text"] +"</div></section></article>");
               $("#page-"+index).css("background-image", "url('"+ obj["Link"] +"')");
+              if ($("#text-"+index).is(':empty')){
+                $("#section-"+index).hide();
+              }
         });
         runPage(0);
     };
