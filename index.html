@@ -10,15 +10,98 @@
 
     <title>GIFRAME</title>
 
-    <script src="jquery-3.2.1.min.js"></script>
 
-    <!-- Custom -->
+
+    <script src="jquery-3.2.1.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <script lang="javascript" src="script.js"></script>
+
+
+    <style>
+    body {
+      margin:0;
+      padding:0;
+      background-color: #000;
+      background-image: url("loading.gif");
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 100vh;
+    }
+
+    article {
+      background-position: center;
+      background-size: contain;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      width: 100%;
+      height: 100vh;
+      display:none;
+    }
+
+    section {
+      position: fixed;
+      bottom: 0px;
+      height:50px;
+      width: 100%;
+      background-color: #222;
+      display: flex;
+      align-items: stretch;
+      align-content: stretch;
+      justify-content: center;
+      padding: 5px;
+      opacity: 0.8;
+    }
+
+    #message {
+      color:#fff;
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.3em;
+      text-align: center;
+      padding-top: 10px;
+      flex: 1 1 auto;
+      border-right: thin solid #fff;
+    }
+
+  </style>
+
+    <script>
+
+    var timeUnit = 10000;
+    var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/11h5FC331U9PD361orwjEc0wz_UgzGANK45bXaMPhq-g/pubhtml';
+
+
+    function init() {
+      Tabletop.init( { key: publicSpreadsheetUrl,
+                       callback: buildPage,
+                       simpleSheet: true } )
+    }
+
+    function buildPage(data, tabletop) {
+        $.each(data, function(index, obj){
+              $("body").append("<article id='page-"+index+"'><section><div id='message'>"+ obj["Text"] +"</div></section></article>");
+              $("#page-"+index).css("background-image", "url('"+ obj["Link"] +"')");
+        });
+        runPage(0);
+    };
+
+    function runPage() {
+      $("article").each(function(index) {
+        $(this).delay(timeUnit*index).slideToggle();
+        $(this).delay((timeUnit*index)+(timeUnit-1000)).slideToggle();
+      });
+      var reloadTime =  timeUnit+timeUnit*$("article").length;
+      setTimeout(cleanPage, reloadTime);
+    };
+
+    function cleanPage() {
+        $("body").empty();
+        init();
+    };
+
+    window.addEventListener('DOMContentLoaded', init);
+    </script>
 
   </head>
-  <body onload="buildPage('none');">
-    <article></article>
+  <body>
   </body>
 </html>
