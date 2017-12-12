@@ -87,11 +87,14 @@
     };
 
     function runPage() {
+      var reloadIndex;
       $("article").each(function(index) {
         $(this).delay(timeUnit*index).slideToggle();
         $(this).delay((timeUnit*index)+(timeUnit-1000)).slideToggle();
+        reloadIndex = index;
       });
-      var reloadTime =  timeUnit+timeUnit*$("article").length;
+      reloadIndex++;
+      var reloadTime = (timeUnit*reloadIndex)+timeUnit;
       setTimeout(cleanPage, reloadTime);
     };
 
