@@ -29,6 +29,8 @@
     }
 
     article {
+      position: absolute;
+      background-color: #000;
       background-position: center;
       background-size: contain;
       background-attachment: fixed;
@@ -65,40 +67,44 @@
 
     <script>
 
-    var timeUnit = 10000;
+    var timeUnit = 3000;
     var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/11h5FC331U9PD361orwjEc0wz_UgzGANK45bXaMPhq-g/pubhtml';
-
+    var pageCount = 0;
 
     function init() {
       Tabletop.init( { key: publicSpreadsheetUrl,
                        callback: buildPage,
                        simpleSheet: true } )
-    }
+    };
 
     function buildPage(data, tabletop) {
         $.each(data, function(index, obj){
-              $("body").append("<article id='page-"+index+"'><section id='section-"+index+"'><div class='message'  id='text-"+index+"'>"+ obj["Text"] +"</div></section></article>");
+              $("body").append("<article style='z-index="+ index +"' id='page-"+index+"'><section id='section-"+index+"'><div class='message'  id='text-"+index+"'>"+ obj["Text"] +"</div></section></article>");
               $("#page-"+index).css("background-image", "url('"+ obj["Link"] +"')");
               if ($("#text-"+index).is(':empty')){
                 $("#section-"+index).hide();
               }
+              pageCount++;
         });
+
         runPage(0);
+
     };
 
-    function runPage() {
-      var reloadIndex;
-      $("article").each(function(index) {
-        $(this).delay(timeUnit*index).slideToggle();
-        $(this).delay((timeUnit*index)+(timeUnit-1000)).slideToggle();
-        reloadIndex = index;
-      });
-      reloadIndex++;
-      var reloadTime = (timeUnit*reloadIndex)+timeUnit;
-      setTimeout(cleanPage, reloadTime);
+    function runPage(pageID) {
+      console.log(pageID +"/"+ pageCount);
+      $('#page-'+pageID).slideDown();
+      if (pageID >= pageCount) {
+        cleanPage();
+      }
+      else {
+        pageID++;
+        setTimeout(function() { runPage(pageID); }, timeUnit);
+      }
     };
 
     function cleanPage() {
+        pageCount = 0;
         $("body").empty();
         init();
     };
