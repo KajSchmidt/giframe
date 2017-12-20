@@ -47,6 +47,10 @@
       width: 100%;
       height: 100vh;
     }
+
+    .contain_img {
+      object-fit: contain; !important
+    }
   </style>
 
     <script>
@@ -63,7 +67,7 @@
 
     function buildFrames(data, tabletop) {
         $.each(data, function(index, obj){
-              $("#main").append("<article class='carousel-item'><img class='d-block h-100 mx-auto' src='"+ obj["Link"] +"'><section class='carousel-caption d-none d-md-block'><h3>"+ obj["Text"] +"</h3></section></article>");
+              $("#main").append("<article class='carousel-item'><img class='contain_img d-block h-100 mx-auto' src='"+ obj["Link"] +"'><section class='carousel-caption d-none d-md-block'><h3>"+ obj["Text"] +"</h3></section></article>");
               $("ol.carousel-indicators").append("<li data-target='#giframe' data-slide-to='"+ index +"'></li>");
         });
 
